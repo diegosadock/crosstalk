@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sadock.crosstalk.dto.LoginResponse;
 import com.sadock.crosstalk.model.Usuario;
 import com.sadock.crosstalk.security.CrosstalkToken;
 import com.sadock.crosstalk.service.usuario.IUsuarioService;
@@ -61,10 +62,12 @@ public class UsuarioController {
 	
 	
 	@PostMapping("/login")
-	public ResponseEntity<CrosstalkToken> realizarLogin(@RequestBody Usuario usuario){
+	public ResponseEntity<LoginResponse> realizarLogin(@RequestBody Usuario usuario){
 		CrosstalkToken token = service.fazerLogin(usuario.getEmailUsuario(), usuario.getSenhaUsuario());
 		if (token != null) {
-			return ResponseEntity.ok(token);
+			Usuario userCompleto = service.recuperarPeloEmail(usuario.getEmailUsuario());
+			LoginResponse response = new LoginResponse(token.getToken(), userCompleto);
+			return ResponseEntity.ok(response);
 		}
 		return ResponseEntity.status(403).build();
 	}

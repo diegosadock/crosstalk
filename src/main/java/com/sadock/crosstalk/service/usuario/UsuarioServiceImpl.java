@@ -66,4 +66,9 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		return null;
 	}
 
+	@Override
+	public Usuario recuperarPeloEmail(String emailUsuario) {
+		return dao.findByEmailUsuario(emailUsuario);
+	}
+
 }

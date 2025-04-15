@@ -11,6 +11,7 @@ public interface IUsuarioService {
 	public Usuario alterarUsuario(Usuario usuario);
 	public List<Usuario> listarUsuarios();
 	public Usuario recuperarPeloId(Integer idUsuario);
+	public Usuario recuperarPeloEmail(String emailUsuario);
 	public void deletarPeloId(Integer idUsuario);
 	public CrosstalkToken fazerLogin(String email, String senha);
 
