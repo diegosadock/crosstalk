@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.sadock.crosstalk.dao.UsuarioDAO;
+import com.sadock.crosstalk.model.Postagem;
 import com.sadock.crosstalk.model.Usuario;
 import com.sadock.crosstalk.security.CrosstalkToken;
 import com.sadock.crosstalk.security.TokenUtil;
@@ -30,6 +31,12 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	public Usuario alterarUsuario(Usuario usuario) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String novaSenha = encoder.encode(usuario.getSenhaUsuario());
+		
+		Usuario existente = dao.findById(usuario.getIdUsuario())
+				.orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+		// Preserva a data original
+		usuario.setDataCadastro(existente.getDataCadastro());
 		
 		usuario.setSenhaUsuario(novaSenha);
 		

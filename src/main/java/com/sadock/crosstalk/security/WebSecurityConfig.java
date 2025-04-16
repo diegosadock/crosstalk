@@ -17,6 +17,8 @@ public class WebSecurityConfig {
 			.authorizeHttpRequests()
 			.requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
 			.requestMatchers(HttpMethod.POST, "/login").permitAll()
+			.requestMatchers(HttpMethod.GET, "/postagens/**").permitAll()
+			.requestMatchers(HttpMethod.POST, "/postagens/**").permitAll()
 			.anyRequest().authenticated().and().cors();
 		
 		http.addFilterBefore(new MyFilter(), UsernamePasswordAuthenticationFilter.class);
